@@ -14,7 +14,7 @@ Bytes      | MegaBytes (MB)
 50,000,000   50
 ---------------------------*/
 
-    protected $max = 1000000;  // 1 MB  Default
+    protected $max = 1000000;  // 1 MB
     protected $messages = [];
     protected $allowed = [
         'image/gif',
@@ -22,7 +22,7 @@ Bytes      | MegaBytes (MB)
         'image/pjpeg',
         'image/png'
     ];
-    protected $typeCheckingOn = true;
+
     protected $notTrusted = ['bin', 'cgi', 'exe', 'js', 'pl', 'php', 'py', 'sh'];
     protected $newName;
     protected $renameDuplicates = true;
@@ -86,13 +86,13 @@ Bytes      | MegaBytes (MB)
         if (!$this->checkFileSize($file)) {
             $accept = false;
         }
-        if ($this->typeCheckingOn) {
-            if (!$this->checkType($file)) {
-                $accept = false;
-            }
+
+        if (!$this->checkAllowedTypes($file)) {
+            $accept = false;
         }
+        
         if ($accept) {
-            $this->checkName($file);
+            $this->checkFileName($file);
         }
         return $accept;
     }
@@ -101,7 +101,6 @@ Bytes      | MegaBytes (MB)
     MOVE FILE
 /*=============================================================*/
     protected function moveFile($file) {
-        // at this point $this->newName is not null
         $filename = isset($this->newName) ? $this->newName : $file['name'];
         $success = move_uploaded_file($file['tmp_name'], $this->destination . $filename);
         if ($success) {
@@ -117,9 +116,9 @@ Bytes      | MegaBytes (MB)
     }
 
 /*===============================================================
-    CHECK NAME
+    CHECK FILE NAME
 /*=============================================================*/
-    protected function checkName($file) {
+    protected function checkFileName($file) {
         $this->newName = null;
         $nospaces = str_replace(' ', '_', $file['name'] );
         if ($nospaces != $file['name']) {
@@ -164,6 +163,7 @@ Bytes      | MegaBytes (MB)
 /*=============================================================*/    
     protected function getFileErrorMessage($file) {
         switch($file['error']) {
+            // UPLOAD_ERR_INI_SIZE: file exceeds the upload_max_filesize directive in php.ini
             case 1:
             case 2:
                 $this->messages[] = $file['name'] . ' is too big: (max: ' .
@@ -182,16 +182,16 @@ Bytes      | MegaBytes (MB)
     }
 
 /*===============================================================
-    CHECK SIZE
+    CHECK FILE SIZE
 /*=============================================================*/
     protected function checkFileSize($file) {
+        // UPLOAD_ERR_INI_SIZE
         if ($file['error'] == 1 || $file['error'] == 2) {
             return false;
         } elseif ($file['size'] == 0) {
             $this->messages[] = $file['name'] . ' is an empty file.';
             return false;
-            // this will execute for our max size that we specify in this 
-            // class, overriding the system php.ini file size 
+            // max size defined in class 
         } elseif ($file['size'] > $this->max) {
             $this->messages[] = $file['name'] . ' exceeds the maximum size
                 for a file (' . $this->getMaxSize() . ').';
@@ -202,14 +202,14 @@ Bytes      | MegaBytes (MB)
     }
 
 /*===============================================================
-    CHECK TYPE
+    CHECK ALLOWED FILE TYPES
 /*=============================================================*/
-    protected function checkType($file) {
+    protected function checkAllowedTypes($file) {
         if (in_array( $file['type'], $this->allowed)) {
             return true;
         } else {
             if (!empty($file['type'])) {
-                $this->messages[] = $file['name'] . ' is not permitted type of file.';
+                $this->messages[] = $file['name'] . ' is not a permitted type of file.';
             }
             return false;
         }

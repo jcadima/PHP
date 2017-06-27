@@ -19,6 +19,7 @@ if (isset($_POST['upload'])) {
 <head>
     <meta  charset="utf-8">
     <title>Upload File(s)</title>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
       <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 </head>
 
@@ -35,11 +36,16 @@ if (isset($result)) {
 <form action="" method="post" enctype="multipart/form-data" id="uploadImage">
     <p>
         <label for="image">Upload image:</label>
-        <input type="file" name="image[]" id="standard-upload-files" multiple>
+        <input type="file" name="image[]" id="fileimage" multiple>
     </p>
     <p>
         <input type="submit" name="upload" id="upload" value="Upload">
     </p>
+
+    <p><div class="preview-area"></div></p>
+
 </form>
 </body>
+<script src="js/script.js"></script>
+
 </html>
