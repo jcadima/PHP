@@ -1,4 +1,3 @@
-<?php include 'config.php'  ; ?>
 <!doctype html>
 <html lang="en">
 
@@ -39,6 +38,7 @@
 <script>
 $(document).ready(function() {
 	$("#leadform").submit(function(event) {
+      jQuery('#loader').show() ; // show the loader on init
 	    /* Stop form from submitting normally */
 	    event.preventDefault();
 	    /* Get from elements values */
@@ -63,6 +63,7 @@ $(document).ready(function() {
           console.log("SUCCESS") ;
           $('#result').show() ;
           $("#result").html(response);
+          $('#loader').hide() ;
         });
 
         /* On failure of request this function will be called  */
