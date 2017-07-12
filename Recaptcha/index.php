@@ -7,7 +7,7 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title></title>
+  <title>Recaptcha with Ajax demo</title>
 
  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>

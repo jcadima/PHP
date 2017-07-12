@@ -8,10 +8,10 @@ if ( ! class_exists('Recaptcha') )
 
 $recaptcha = $_POST['g-recaptcha-response'];
 
-extract($_POST) ;
+$name    = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
+$email   = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
+$message = filter_var($_POST['message'], FILTER_SANITIZE_STRING);
 
-$current_date = date('n/j/Y'); 
-$current_time = date('g:i a') ;
 $recobj = new Recaptcha();
 $response = $recobj->verifyResponse($recaptcha);
 
