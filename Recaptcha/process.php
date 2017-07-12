@@ -22,7 +22,7 @@ else {
 
 	$mail = new PHPMailer;
 	
-	//$mail->SMTPDebug = 3;                               // Enable verbose debug output
+	$mail->SMTPDebug = 3;                               // Enable verbose debug output
 	
 	$mail->isSMTP();                                      // Set mailer to use SMTP
 	$mail->SMTPAuth   = true;                  // enable SMTP authentication

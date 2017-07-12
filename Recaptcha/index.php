@@ -9,6 +9,10 @@
 
   <title>Recaptcha with Ajax demo</title>
 
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+<link href="css/styles.css" rel="stylesheet">
+
  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 
@@ -18,11 +22,17 @@
     <input type="text" id="name" name="name" value="" placeholder="Name">
     <input type="text" id="email" name="email" value="" placeholder="Email">
     <div><textarea type="text" id="message" name="message" placeholder="Message"></textarea></div>
-    <div class="g-recaptcha" data-sitekey="6LeT7h8UAAAAALq7qjy90QTcjphFpAtfkg9tzEcT"></div>
+    <div class="g-recaptcha" data-sitekey="your-client-key"></div>
     <input type="submit" name="submit" value="SUBMIT">
 </form>
 
-<div id="result" style="display:none;"></div>
+<div id="loader" class="col-md-12" style="display:none;">
+  <img src="images/spinner.gif">
+</div>              
+
+<div class="col-md-12 text-center">
+  <div id="result" class="alert alert-success" style="display:none;"></div>
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
@@ -32,8 +42,8 @@ $(document).ready(function() {
 	    /* Stop form from submitting normally */
 	    event.preventDefault();
 	    /* Get from elements values */
-	    var name = $('#name').val();
-	    var email = $('#email').val();
+	    var name    = $('#name').val();
+	    var email   = $('#email').val();
 	    var message = $('#message').val();
 	    var g_recaptcha_response  = $('#g-recaptcha-response').val();
 
@@ -41,7 +51,7 @@ $(document).ready(function() {
 	    $("#result").html('');
 	    
         ajaxRequest = $.ajax({
-            url: "process_ajax.php",
+            url: "process.php",
             type: "post",
             data: {name:name,email:email,message:message, g_recaptcha_response: g_recaptcha_response }
         });
