@@ -7,3 +7,4 @@ feature list:
  * Regular expression for MVC routes
  * Dropdown selection 
  * Mobile redirect
+ * Detect Proxy
