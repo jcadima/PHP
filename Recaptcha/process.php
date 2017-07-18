@@ -8,6 +8,7 @@ if ( ! class_exists('Recaptcha') )
 
 $recaptcha = $_POST['g-recaptcha-response'];
 
+// Sanitize input
 $name    = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
 $email   = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
 $message = filter_var($_POST['message'], FILTER_SANITIZE_STRING);
@@ -18,18 +19,18 @@ $response = $recobj->verifyResponse($recaptcha);
 if( isset($response['success']) && $response['success'] != true )  {
 	echo "An Error Occurred and Error code is :".$response['error-codes'];
 }
-else {
+else { 
 
 	$mail = new PHPMailer;
 	
-	$mail->SMTPDebug = 3;                               // Enable verbose debug output
+	$mail->SMTPDebug = 3;                      // Enable verbose debug output
 	
-	$mail->isSMTP();                                      // Set mailer to use SMTP
+	$mail->isSMTP();                           // Set mailer to use SMTP
 	$mail->SMTPAuth   = true;                  // enable SMTP authentication
 	$mail->SMTPSecure = "tls";                 // sets the prefix to the servier
-	$mail->Host       = "smtp.gmail.com ";      // sets GMAIL as the SMTP server
+	$mail->Host       = "smtp.gmail.com ";     // sets GMAIL as the SMTP server
 	$mail->Port       = 587;                   // set the SMTP port for the GMAIL server
-	$mail->Username   = "gmailuser";  // GMAIL username
+	$mail->Username   = "gmailuser";           // GMAIL username
 	$mail->Password   = "gmailpass";                              
 	
 	$mail->setFrom('admin@domain.com', 'Admin');
