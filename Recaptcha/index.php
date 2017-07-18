@@ -38,7 +38,7 @@
 <script>
 $(document).ready(function() {
 	$("#leadform").submit(function(event) {
-      jQuery('#loader').show() ; // show the loader on init
+      $('#loader').show() ; // show the loader on init
 	    /* Stop form from submitting normally */
 	    event.preventDefault();
 	    /* Get from elements values */
