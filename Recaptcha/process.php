@@ -28,7 +28,7 @@ else {
 	$mail->isSMTP();                           // Set mailer to use SMTP
 	$mail->SMTPAuth   = true;                  // enable SMTP authentication
 	$mail->SMTPSecure = "tls";                 // sets the prefix to the servier
-	$mail->Host       = "smtp.gmail.com ";     // sets GMAIL as the SMTP server
+	$mail->Host       = "smtp.gmail.com";     // sets GMAIL as the SMTP server
 	$mail->Port       = 587;                   // set the SMTP port for the GMAIL server
 	$mail->Username   = "gmailuser";           // GMAIL username
 	$mail->Password   = "gmailpass";                              
