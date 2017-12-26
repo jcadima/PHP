@@ -10,6 +10,8 @@
 
 <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 
+<link href="http://codeseven.github.io/toastr/build/toastr.min.css" rel="stylesheet" type="text/css" />
+
 <link href="css/styles.css" rel="stylesheet">
 
  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
@@ -35,6 +37,8 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
+<script src="http://codeseven.github.io/toastr/build/toastr.min.js"></script>
+
 <script>
 $(document).ready(function() {
 	$("#leadform").submit(function(event) {
@@ -56,15 +60,18 @@ $(document).ready(function() {
             data: {name:name,email:email,message:message, g_recaptcha_response: g_recaptcha_response }
         });
 
-        /*  request cab be abort by ajaxRequest.abort() */
-
         ajaxRequest.done(function (response, textStatus, jqXHR){
-          // show successfully for submit message
-          console.log("SUCCESS") ;
-          $('#result').show() ;
-          $("#result").html(response);
-          $('#loader').hide() ;
+          if ( jqXHR.responseText == "Recaptcha is required" ) {
+            toastr.error('Recaptcha is required', 'Error');
+            $('#loader').hide() ;        
+          }          
+
+          else {                                
+            toastr.success('Thanks for filling out our form!');
+            $('#loader').hide() ;                
+          }             
         });
+
 
         /* On failure of request this function will be called  */
         ajaxRequest.fail(function (response){
